@@ -8,9 +8,9 @@ from twilio.rest import Client
 from metaphor_python import Metaphor
 import boto3
 from boto.s3.key import Key
+from elevenlabs import generate, save, Voice, VoiceSettings
+import replicate
 metaphor = Metaphor("METAPHOR_API_KEY")
-from elevenlabs import generate, save
-
 load_dotenv()
 
 # Set the API endpoint and your API key
@@ -53,22 +53,25 @@ if st.button('Enter'):
     print(text)
     st.text_area(label ="Response",value=text, height =500)
     st.write("Text: ", text)
-    # Set the request data
-    data2 = { 
-        "model": "text-davinci-003",
-        "prompt": "Offer hot takes on the following article from the perspective of a Gen Z tiktoker for a new tiktok series called 'for the girlies' using the most stereotypical gen z slang terms. Do not use emojis or hashtags. Use metaphors that would be very relatable to gen Z. The first line should be 'heyyyy girlies!!!'. The article to summarize: " + text,
-        "max_tokens": 1000,
-        "temperature": 0.1,
-    }
-    # Send the request and store the response
-    genz_response = requests.post(url, headers=headers, json=data2)
-    # Parse the response
-    genz_resp_data = genz_response.json()
-    print("genz_resp_data ", genz_resp_data['choices'][0]['text'])
+
+    output = replicate.run(
+        "meta/llama-2-70b-chat:02e509c789964a7ea8736978a43525956ef40397be9033abf9fd2badfe68c9e3",
+        input={"prompt": "Offer hot takes on the following article from the perspective of a Gen Z tiktoker for a new tiktok series called 'for the girlies' using the most stereotypical gen z slang terms. Do not use emojis or hashtags. Use metaphors that would be very relatable to gen Z. The first line should be 'heyyyy girlies!!!'. The article to summarize: " + text,
+               "max_new_tokens":2000}
+    )
+    genz_resp_data = ''
+    for item in output:
+        genz_resp_data+=item
+        print(item, end="")
+    print("genz_resp_data ", genz_resp_data)
+
     audio = generate(
-        text=genz_resp_data['choices'][0]['text'],
+        text=genz_resp_data,
         api_key= os.environ.get('ELEVEN_API_KEY'),
-        voice="Bella",
+        voice=Voice(
+            voice_id='5Rfw7GYjcN1FJLU7i8je',
+            settings=VoiceSettings(stability=0.71, similarity_boost=0.5, style=0.0, use_speaker_boost=True)
+        ),
         model='eleven_monolingual_v1'
     )
 
