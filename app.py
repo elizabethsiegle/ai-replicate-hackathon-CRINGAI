@@ -12,9 +12,11 @@ import boto3
 from boto.s3.key import Key
 from elevenlabs import generate, save, Voice, VoiceSettings
 import replicate
-metaphor = Metaphor(os.environ.get("METAPHOR_API_KEY"))
+metaphor = Metaphor("2e22c147-fe26-4934-8c1f-a82a834afafd") # os.environ.get("METAPHOR_API_KEY")
 load_dotenv()
-st.title('for the girlies🫶')
+st.title('for the girlies🫶 //cringeAI')
+st.subheader('(Daniel came up w/ this name, !Lizzie)')
+st.subheader('personalized GenZ-ified audio☎️ news recommendations summaries📰')
 
 image = Image.open('trisha.jpeg')
 st.image(image, caption='Trisha Paytas (Lizzie does not know who this is)')
@@ -24,13 +26,18 @@ url = "https://api.openai.com/v1/completions"
 
 api_key = os.environ.get('OPENAI_API_KEY')
 
-news_link = "https://www.sfexaminer.com/news/housing/state-grants-favor-fewer-cars-more-housing-for-sf/article_55465cbc-533a-11ee-bcd6-4fea207c4ac9.html" #st.text_input('Enter a news URL link, please')
+#news_link = "https://www.sfexaminer.com/news/housing/state-grants-favor-fewer-cars-more-housing-for-sf/article_55465cbc-533a-11ee-bcd6-4fea207c4ac9.html" 
 news_options = st.multiselect(
     'What news are you interested in?',
-    ['tennis', 'pop culture', 'urbanism', 'politics','Housing', 'San Francisco'],
-    ['Housing', 'San Francisco'])
-
+    ['tennis🎾', 'pop culture🎤', 'urbanism🚴‍♀️', 'politics🇺🇸','Housing🏡', 'San Francisco🌁'],
+    ['Housing🏡'])
+news_link = st.text_input('Enter a news URL link, please')
 st.write('You selected:', news_options)
+met_search_resp = metaphor.search(
+  str(news_options),
+  num_results=10,
+  use_autoprompt=True,
+)
 user_num = st.text_input("Enter your phone # to get the mp3 file played, please")
 if st.button('Enter'):
     resp1 = requests.get(news_link)
@@ -54,7 +61,6 @@ if st.button('Enter'):
         start_published_date="2023-09-01",
         end_published_date="2023-09-17",
     )
-    print('metaphor_sim_res ', type(metaphor_sim_res))
     # Define a regular expression pattern to match URLs
     url_pattern = r"https?://\S+"
 
@@ -154,4 +160,4 @@ if st.button('Enter'):
     
     print(call.sid)
 st.write('Made w/ ❤️ by Daniel Kim && Lizzie Siegle in SF 🌁')
-st.write("check out this [GitHub repo](https://github.com/elizabethsiegle/ai-replicate-hackathon-CRINGAI)")
+st.write("✅ it out on [GitHub /elizabethsiegle/ai-rep-hack](github.com/elizabethsiegle/ai-replicate-hackathon-CRINGAI)")
