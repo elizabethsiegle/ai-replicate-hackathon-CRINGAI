@@ -8,4 +8,4 @@ Made w/ ❤️ in SF w/ [Daniel Kim](https://twitter.com/learnwdaniel) and help 
 ![Streamlit app](image.png)
 ![Summarize articles from Metaphor that are similar to the submitted article and selected topics](image-1.png)
 ![GenZ-ified news summaries to convert to speech with Eleven Labs, upload to AWS S3, play via Twilio Programmable Voice](image-2.png)
-![Lizzie, Daniel, and Craig cheesing by shoes after over 12 hours at the Replicate office](image-3.png)
+![Lizzie, Daniel, and Craig cheesing by shoes after over 12 hours at the Replicate office](https://github.com/elizabethsiegle/ai-replicate-hackathon-CRINGAI/assets/8932430/a8f85392-a73d-4db1-bfd1-b966db552fe2)
