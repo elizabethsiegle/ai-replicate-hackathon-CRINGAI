@@ -7,7 +7,6 @@ from bs4 import BeautifulSoup
 from dotenv import load_dotenv
 from metaphor_python import Metaphor
 from twilio.rest import Client
-from metaphor_python import Metaphor
 import boto3
 from boto.s3.key import Key
 from elevenlabs import generate, save, Voice, VoiceSettings
